@@ -1,12 +1,12 @@
 import './App.css';
-import ProductList from './components/ProductList';
+import Banner from './components/BannerUp';
 
 function App() {
-  
+
   return (
     <div className="App">
-       <h1>Product Management</h1>
-       <ProductList />
+     
+      <Banner />
     </div>
   );
 }

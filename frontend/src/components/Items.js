@@ -1,31 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts, deleteProduct } from "../features/productSlice";
-import ProductForm from "./ProductForm";
+import { fetchProducts } from "../features/productSlice";
 import Filters from "./Filters";
 
-const ProductList = () => {
+const Items = () => {
   const dispatch = useDispatch();
   const { items, loading, error } = useSelector((state) => state.products);
-  const [productToEdit, setProductToEdit] = useState(null);
   const [filters, setFilters] = useState({ category: "", min: 0, max: Infinity });
 
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const handleEdit = (product) => {
-    setProductToEdit(product); // Establecer el producto a editar
-  };
-
-  const handleFinish = () => {
-    setProductToEdit(null); // Limpiar el producto a editar después de finalizar
-    dispatch(fetchProducts()); // Refrescar la lista de productos
-  };
-
-  const handleDelete = (id) => {
-    dispatch(deleteProduct(id));
-  };
+  
 
   const handleFilterChange = (newFilters) => {
     setFilters((prev) => ({ ...prev, ...newFilters }));
@@ -47,8 +34,7 @@ const ProductList = () => {
 
   return (
     <div>
-      {/* Formulario */}
-      <ProductForm productToEdit={productToEdit} onFinish={handleFinish} />
+      
 
       {/* Filtros */}
       <Filters onFilterChange={handleFilterChange} />
@@ -67,20 +53,7 @@ const ProductList = () => {
                 <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
                 <p className="mt-1 text-lg font-medium text-gray-900">${product.price}</p>
                 <p className="mt-1 text-sm text-gray-500">{product.category}</p>
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => handleEdit(product)}
-                    className="flex items-center px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
-                  >
-                    Editar
-                  </button>
-                  <button
-                    onClick={() => handleDelete(product.id)}
-                    className="flex items-center px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300"
-                  >
-                    Eliminar
-                  </button>
-                </div>
+                
               </div>
             ))}
           </div>
@@ -90,4 +63,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default Items;

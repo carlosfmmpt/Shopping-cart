@@ -6,10 +6,10 @@ const ProductModel = {
     return rows;
   },
 
-  create: async (name, price, image) => {
+  create: async (name, price, category, image) => {
     const [result] = await db.query(
-      'INSERT INTO products (name, price, image) VALUES (?, ?, ?)',
-      [name, price, image]
+      'INSERT INTO products (name, price, category, image) VALUES (?, ?, ?, ?)',
+      [name, price, category, image]
     );
     return result.insertId;
   },
@@ -19,10 +19,10 @@ const ProductModel = {
     return rows[0];
   },
 
-  update: async (id, name, price, image) => {
+  update: async (id, name, price, category, image) => {
     await db.query(
-      'UPDATE products SET name = ?, price = ?, image = ? WHERE id = ?',
-      [name, price, image, id]
+      'UPDATE products SET name = ?, price = ?, category=?, image = ? WHERE id = ?',
+      [name, price, category, image, id]
     );
   },
 

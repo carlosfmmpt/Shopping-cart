@@ -16,7 +16,7 @@ const getProducts = async (req, res) => {
 // Crear producto
 const createProduct = async (req, res) => {
   try {
-    const { name, price } = req.body;
+    const { name, price, category } = req.body;
     const file = req.files?.image;
 
     if (!file) return res.status(400).json({ error: 'Imagen requerida' });
@@ -27,13 +27,14 @@ const createProduct = async (req, res) => {
     file.mv(filePath, async (err) => {
       if (err) return res.status(500).json({ error: 'Error al subir la imagen' });
 
-      const id = await ProductModel.create(name, price, fileName);
+      const id = await ProductModel.create(name, price, category, fileName);
 
       res.status(201).json(
         {
           id,
           name,
           price,
+          category,
           image: `/uploads/${fileName}` // Asegúrate de que coincida con la ruta donde sirves los archivos
         }
       );
@@ -49,7 +50,7 @@ const createProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, price } = req.body;
+    const { name, price, category } = req.body;
     const file = req.files?.image;
 
     const product = await ProductModel.findById(id);
@@ -67,7 +68,7 @@ const updateProduct = async (req, res) => {
       });
     }
 
-    await ProductModel.update(id, name, price, fileName);
+    await ProductModel.update(id, name, price, category, fileName);
     res.status(200).json({ message: 'Producto actualizado' });
   } catch (error) {
     res.status(500).json({ error: error.message });
