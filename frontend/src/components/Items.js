@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../features/productSlice";
+import { addToCart } from "../features/cartSlice";
 import Filters from "./Filters";
 
 const Items = () => {
@@ -16,6 +17,10 @@ const Items = () => {
 
   const handleFilterChange = (newFilters) => {
     setFilters((prev) => ({ ...prev, ...newFilters }));
+  };
+
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
   };
 
   // Filtrar los productos
@@ -53,7 +58,12 @@ const Items = () => {
                 <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
                 <p className="mt-1 text-lg font-medium text-gray-900">${product.price}</p>
                 <p className="mt-1 text-sm text-gray-500">{product.category}</p>
-                
+                <button
+                  onClick={() => handleAddToCart(product)}
+                  className="mt-2 bg-green-500 text-white p-2 rounded"
+                >
+                  Agregar al carrito
+                </button>
               </div>
             ))}
           </div>

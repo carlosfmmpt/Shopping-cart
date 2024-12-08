@@ -1,27 +1,21 @@
-const mysql = require('mysql2/promise');
-require('dotenv').config();
+const mysql = require('mysql');
+const dotenv = require('dotenv');
 
-// Crear conexión con la base de datos
-const pool = mysql.createPool({
+dotenv.config();
+
+const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
 });
 
-
-// Verificar conexión
-(async () => {
-  try {
-    const connection = await pool.getConnection();
-    console.log('Conexión exitosa con la base de datos de shopping cart.');
-    connection.release(); // Liberar la conexión después de verificar
-  } catch (error) {
-    console.error('Error al conectar con la base de datos:', error.message);
+db.connect((err) => {
+  if (err) {
+    console.error('Error conectando a la base de datos cart:', err.message);
+    process.exit(1);
   }
-})();
+  console.log('Conectado a la base de datos MySQL de Carlos cart');
+});
 
-module.exports = pool;
+module.exports = db;
