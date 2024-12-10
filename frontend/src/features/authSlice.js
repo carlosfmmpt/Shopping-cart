@@ -5,6 +5,7 @@ const tokenFromStorage = localStorage.getItem('token');
 const initialState = {
   isAuthenticated: !!tokenFromStorage, // Verifica si el token existe
   user: null,
+  role: null, // Almacena el rol del usuario
   token: tokenFromStorage || null,
   error: null,
 };
@@ -16,6 +17,7 @@ const authSlice = createSlice({
     loginSuccess: (state, action) => {
       state.isAuthenticated=true;
       state.user = action.payload.user;
+      state.role = action.payload.user.role; // Rol del usuario (admin o user)
       state.token = action.payload.token;
       //console.log(action.payload);
       state.error = null; // Limpiar error al hacer logout
@@ -23,6 +25,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.isAuthenticated=false;
       state.user = null;
+      state.role = null; // Limpiar rol al cerrar sesión
       state.token = null;
       state.error = null; // Limpiar error al hacer logout
       localStorage.removeItem('token'); // Limpia el token

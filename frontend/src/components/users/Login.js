@@ -23,7 +23,7 @@ const Login = () => {
 
       dispatch(loginSuccess({ token, user }));
       localStorage.setItem('token', token);
-      navigate('/dashboard');
+      navigate('/products');
     } catch (err) {
       if (err.response && err.response.data) {
         const errorMessage = err.response.data.message;

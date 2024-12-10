@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from '../../features/authSlice';
 
 const Register = () => {
+  const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
@@ -25,12 +26,12 @@ const Register = () => {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    if (!username || !password) {
+    if (!name || !username || !password) {
       alert('Por favor, completa todos los campos component.');
       return;
     }
     dispatch(resetState());
-    dispatch(registerUser({ username, password }));
+    dispatch(registerUser({ name, username, password }));
   };
 
 
@@ -41,8 +42,19 @@ const Register = () => {
         <h1 className="text-2xl font-bold text-center text-gray-700">Registro de Usuario</h1>
         {loading && <p>Registrando...</p>}
         <form onSubmit={handleRegister} className="mt-6">
+        <div className="mb-4">
+            <label className="block text-gray-600 text-sm font-medium">Name</label>
+            <input
+              type="text"
+              required="required"
+              placeholder="Nombre"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-50 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+            />
+          </div>
           <div className="mb-4">
-            <label className="block text-gray-600 text-sm font-medium">Usuario</label>
+            <label className="block text-gray-600 text-sm font-medium">Email</label>
             <input
               type="email"
               required="required"
@@ -53,7 +65,7 @@ const Register = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-600 text-sm font-medium">Contraseña</label>
+            <label className="block text-gray-600 text-sm font-medium">Password</label>
             <input
               type="password"
               placeholder="Contraseña"

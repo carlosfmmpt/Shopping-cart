@@ -13,6 +13,9 @@ const Items = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+
   
 
   const handleFilterChange = (newFilters) => {
@@ -20,6 +23,9 @@ const Items = () => {
   };
 
   const handleAddToCart = (product) => {
+    if (!isAuthenticated) {
+      return(alert('iniciar sesion primero')); 
+    };
     dispatch(addToCart(product));
   };
 

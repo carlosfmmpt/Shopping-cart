@@ -44,11 +44,14 @@ function App() {
 
     // Función para proteger rutas (redirige al login si no hay token)
     const ProtectedRoute = ({ children }) => {
-      const { isAuthenticated } = useSelector((state) => state.auth);
+      const { isAuthenticated, role } = useSelector((state) => state.auth);
 
       if (!isAuthenticated) {
-        console.log('Usuario no autenticado, redirigiendo a /login');
+        //console.log('Usuario no autenticado, redirigiendo a /login');
         return <Navigate to="/login" />;
+      }
+      if (role !== 'admin') {
+        return <Navigate to="/items" />;
       }
   
       return isAuthenticated ? children : <Navigate to="/login" />;

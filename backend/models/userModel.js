@@ -13,8 +13,8 @@ const findUserByUsername = (username, callback) => {
 };
 
 const createUser = (user, callback) => {
-  const { username, password } = user;
-  db.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, password], callback);
+  const { name, username, password, role } = user;
+  db.query('INSERT INTO users (name, username, password, role) VALUES (?, ?, ?, ?)', [name, username, password, role], callback);
 };
 
 module.exports = { findUserByUsername, createUser };
